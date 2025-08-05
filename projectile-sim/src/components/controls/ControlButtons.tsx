@@ -32,7 +32,7 @@ export function ControlButtons({
           disabled={simulation.isRunning && !simulation.isPaused}
           className={`${buttonBaseClass} bg-gradient-to-br from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700`}
         >
-          <span className="text-2xl mb-1">▶️</span>
+          <span className="text-2xl mb-1"></span>
           <span className="text-xs">Start</span>
         </button>
         
@@ -41,7 +41,7 @@ export function ControlButtons({
           disabled={!simulation.isRunning}
           className={`${buttonBaseClass} bg-gradient-to-br from-yellow-500 to-yellow-600 text-white hover:from-yellow-600 hover:to-yellow-700`}
         >
-          <span className="text-2xl mb-1">{simulation.isPaused ? '▶️' : '⏸️'}</span>
+          <span className="text-2xl mb-1">{simulation.isPaused ? '' : ''}</span>
           <span className="text-xs">{simulation.isPaused ? 'Resume' : 'Pause'}</span>
         </button>
         
@@ -49,7 +49,7 @@ export function ControlButtons({
           onClick={resetSimulation}
           className={`${buttonBaseClass} bg-gradient-to-br from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700`}
         >
-          <span className="text-2xl mb-1">🔄</span>
+          <span className="text-2xl mb-1"></span>
           <span className="text-xs">Reset</span>
         </button>
       </div>
@@ -63,8 +63,8 @@ export function ControlButtons({
         }`}>
           Status: {
             simulation.isRunning 
-              ? (simulation.isPaused ? '⏸️ Paused' : '▶️ Running')
-              : '⏹️ Stopped'
+              ? (simulation.isPaused ? 'Paused' : 'Running')
+              : 'Stopped'
           }
         </div>
         
@@ -84,7 +84,7 @@ export function ControlButtons({
         <div className={`text-xs font-medium mb-2 ${
           isDayTheme ? 'text-blue-800' : 'text-blue-300'
         }`}>
-          💡 Quick Tips
+          Quick Tips
         </div>
         <ul className={`text-xs space-y-1 ${
           isDayTheme ? 'text-blue-700' : 'text-blue-200'

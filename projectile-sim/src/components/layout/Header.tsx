@@ -20,7 +20,7 @@ export function Header({
             <h1 className={`text-2xl font-bold ${
               isDayTheme ? 'text-gray-900' : 'text-white'
             }`}>
-              🎯 Projectile Motion Simulator
+              Projectile Motion Simulator
             </h1>
             
             {/* Simulation Metrics */}
@@ -48,7 +48,7 @@ export function Header({
             <div className={`hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full text-sm ${
               isDayTheme ? 'bg-gray-100 text-gray-700' : 'bg-gray-700 text-gray-300'
             }`}>
-              <span>📐</span>
+              <span></span>
               <span className="font-mono">{params.canvasWidth}×{params.canvasHeight}</span>
             </div>
 

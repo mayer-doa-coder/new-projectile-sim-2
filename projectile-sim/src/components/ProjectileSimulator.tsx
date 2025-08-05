@@ -73,7 +73,7 @@ export default function ProjectileSimulator() {
                   <h2 className={`text-lg font-semibold ${
                     isDayTheme ? 'text-gray-900' : 'text-white'
                   }`}>
-                    🚀 Simulation Canvas
+                    Simulation Canvas
                   </h2>
                   
                   {/* Simulation Controls */}
@@ -83,7 +83,7 @@ export default function ProjectileSimulator() {
                       disabled={simulation.isRunning && !simulation.isPaused}
                       className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-br from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700"
                     >
-                      <span className="text-lg">▶️</span>
+                      
                       <span className="text-sm">Start</span>
                     </button>
                     
@@ -92,7 +92,7 @@ export default function ProjectileSimulator() {
                       disabled={!simulation.isRunning}
                       className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-br from-yellow-500 to-yellow-600 text-white hover:from-yellow-600 hover:to-yellow-700"
                     >
-                      <span className="text-lg">{simulation.isPaused ? '▶️' : '⏸️'}</span>
+                      
                       <span className="text-sm">{simulation.isPaused ? 'Resume' : 'Pause'}</span>
                     </button>
                     
@@ -100,7 +100,6 @@ export default function ProjectileSimulator() {
                       onClick={resetSimulation}
                       className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg bg-gradient-to-br from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700"
                     >
-                      <span className="text-lg">🔄</span>
                       <span className="text-sm">Reset</span>
                     </button>
                   </div>
@@ -127,7 +126,7 @@ export default function ProjectileSimulator() {
                           <div className={`text-sm font-semibold mb-2 ${
                             isDayTheme ? 'text-gray-900' : 'text-white'
                           }`}>
-                            📊 Live Data
+                            Live Data
                           </div>
                           
                           <div className="space-y-2 text-xs">

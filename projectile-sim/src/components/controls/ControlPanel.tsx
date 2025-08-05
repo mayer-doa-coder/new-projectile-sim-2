@@ -11,12 +11,12 @@ const PRESETS: Preset[] = [
     params: { velocity: 45, angle: 45, mass: 50, airResistance: true, cannonHeight: 2.0 },
     description: "Heavy projectile with air resistance from elevated position"
   },
-  {
-    name: "Bullet",
-    icon: "🔸",
-    params: { velocity: 85, angle: 25, mass: 5, airResistance: true, cannonHeight: 1.2 },
-    description: "High-speed, lightweight projectile from shoulder height"
-  },
+  // {
+  //   name: "Bullet",
+  //   icon: "🔸",
+  //   params: { velocity: 85, angle: 25, mass: 5, airResistance: true, cannonHeight: 1.2 },
+  //   description: "High-speed, lightweight projectile from shoulder height"
+  // },
   {
     name: "Basketball",
     icon: "🏀",
@@ -35,18 +35,18 @@ const PRESETS: Preset[] = [
     params: { velocity: 45, angle: 45, mass: 25, airResistance: false, cannonHeight: 1.5 },
     description: "Ideal physics without air resistance from standard height"
   },
-  {
-    name: "Tower Shot",
-    icon: "🏰",
-    params: { velocity: 40, angle: 30, mass: 30, airResistance: true, cannonHeight: 8.0 },
-    description: "Projectile launched from a high tower or cliff"
-  },
-  {
-    name: "Ground Level",
-    icon: "🎯",
-    params: { velocity: 50, angle: 35, mass: 20, airResistance: true, cannonHeight: 0.5 },
-    description: "Low trajectory shot from near ground level"
-  }
+  // {
+  //   name: "Tower Shot",
+  //   icon: "🏰",
+  //   params: { velocity: 40, angle: 30, mass: 30, airResistance: true, cannonHeight: 8.0 },
+  //   description: "Projectile launched from a high tower or cliff"
+  // },
+  // {
+  //   name: "Ground Level",
+  //   icon: "🎯",
+  //   params: { velocity: 50, angle: 35, mass: 20, airResistance: true, cannonHeight: 0.5 },
+  //   description: "Low trajectory shot from near ground level"
+  // }
 ];
 
 export function ControlPanel({
@@ -87,19 +87,19 @@ export function ControlPanel({
               onClick={() => setActiveTab('params')}
               className={tabButtonClass(activeTab === 'params')}
             >
-              ⚙️ Parameters
+              Parameters
             </button>
             <button
               onClick={() => setActiveTab('presets')}
               className={tabButtonClass(activeTab === 'presets')}
             >
-              🎮 Presets
+              Presets
             </button>
             <button
               onClick={() => setActiveTab('canvas')}
               className={tabButtonClass(activeTab === 'canvas')}
             >
-              📐 Canvas
+              Canvas
             </button>
           </div>
         </div>

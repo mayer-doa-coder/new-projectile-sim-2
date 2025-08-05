@@ -14,7 +14,7 @@ export function DataPanel({ simulation, params, isDayTheme }: DataPanelProps) {
           <h3 className={`text-lg font-semibold ${
             isDayTheme ? 'text-gray-900' : 'text-white'
           }`}>
-            📊 Live Data
+            Live Data
           </h3>
         </div>
         
@@ -87,7 +87,7 @@ export function DataPanel({ simulation, params, isDayTheme }: DataPanelProps) {
             <h3 className={`text-lg font-semibold ${
               isDayTheme ? 'text-gray-900' : 'text-white'
             }`}>
-              ⏱️ Progress
+               Progress
             </h3>
           </div>
           
@@ -116,7 +116,7 @@ export function DataPanel({ simulation, params, isDayTheme }: DataPanelProps) {
           <h3 className={`text-lg font-semibold ${
             isDayTheme ? 'text-gray-900' : 'text-white'
           }`}>
-            🔬 Physics Info
+            Physics Info
           </h3>
         </div>
         
@@ -198,7 +198,7 @@ export function DataPanel({ simulation, params, isDayTheme }: DataPanelProps) {
               isDayTheme ? 'text-gray-500' : 'text-gray-400'
             } space-y-1`}>
               <div className="font-medium">
-                {params.airResistance ? '🌪️ With Air Resistance' : '✨ Ideal Conditions (Vacuum)'}
+                {params.airResistance ? ' With Air Resistance' : 'Ideal Conditions (Vacuum)'}
               </div>
               <div>
                 {params.airResistance 
