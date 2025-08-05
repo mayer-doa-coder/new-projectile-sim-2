@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ControlPanelProps, Preset } from '../../types/simulation';
 import { ParameterSlider } from './ParameterSlider';
 import { PresetSelector } from './PresetSelector';
-import { ControlButtons } from './ControlButtons';
 import { CanvasSizeControls } from './CanvasSizeControls';
 
 const PRESETS: Preset[] = [
@@ -255,18 +254,6 @@ export function ControlPanel({
         )}
       </div>
 
-      {/* Control Buttons */}
-      <div className={cardClass}>
-        <div className="p-4">
-          <ControlButtons
-            simulation={simulation}
-            startSimulation={startSimulation}
-            resetSimulation={resetSimulation}
-            togglePause={togglePause}
-            isDayTheme={isDayTheme}
-          />
-        </div>
-      </div>
     </div>
   );
 }
