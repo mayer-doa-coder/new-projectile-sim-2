@@ -12,10 +12,10 @@ const IntroPage: React.FC<IntroPageProps> = ({ onComplete }) => {
 
   const teamMembers = [
     'Tawhidul Hasan',
-    'Shormi Ghosh', 
+    'Sarwad Hossain Siddiqui', 
     'Arka Braja Prasad Nath',
-    'Adiba Tahsin',
-    'Sarwad Hossain Siddiqui'
+    'Shormi Ghosh',
+    'Adiba Tahsin'
   ];
 
   useEffect(() => {
@@ -70,34 +70,53 @@ const IntroPage: React.FC<IntroPageProps> = ({ onComplete }) => {
           <h2 className="text-3xl md:text-4xl text-white mb-8 font-semibold">
             Team Members
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {teamMembers.map((member, index) => (
-              <div
-                key={member}
-                className={`bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 transition-all duration-1000 ease-out ${
-                  showMembers ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-10'
-                }`}
-                style={{ transitionDelay: `${(index + 1) * 200}ms` }}
-              >
-                <div className="text-lg font-medium text-white">
-                  {member}
-                </div>
-              </div>
-            ))}
-          </div>
+          {/* Top 3 members */}
+<div className="flex justify-center gap-6 flex-wrap mb-6">
+  {teamMembers.slice(0, 3).map((member, index) => (
+    <div
+      key={member}
+      className={`bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 transition-all duration-1000 ease-out ${
+        showMembers ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-10'
+      }`}
+      style={{ transitionDelay: `${(index + 1) * 200}ms` }}
+    >
+      <div className="text-lg font-medium text-white">
+        {member}
+      </div>
+    </div>
+  ))}
+</div>
+
+{/* Bottom 2 members */}
+<div className="flex justify-center gap-6 flex-wrap">
+  {teamMembers.slice(3).map((member, index) => (
+    <div
+      key={member}
+      className={`bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 transition-all duration-1000 ease-out ${
+        showMembers ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-10'
+      }`}
+      style={{ transitionDelay: `${(index + 4) * 200}ms` }}
+    >
+      <div className="text-lg font-medium text-white">
+        {member}
+      </div>
+    </div>
+  ))}
+</div>
+
         </div>
 
         {/* Loading animation */}
         <div className={`transition-all duration-1000 ease-out ${
-          currentStep >= 2 ? 'opacity-100' : 'opacity-0'
-        }`}>
-          <div className="flex justify-center items-center space-x-2">
-            <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
-            <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse animation-delay-200"></div>
-            <div className="w-3 h-3 bg-pink-400 rounded-full animate-pulse animation-delay-400"></div>
-          </div>
-          <p className="text-gray-300 mt-4 text-lg">Loading Simulation...</p>
-        </div>
+  currentStep >= 2 ? 'opacity-100' : 'opacity-0'
+}`}>
+  <div className="flex justify-center items-center space-x-2 mt-10">
+    <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
+    <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse animation-delay-200"></div>
+    <div className="w-3 h-3 bg-pink-400 rounded-full animate-pulse animation-delay-400"></div>
+  </div>
+  <p className="text-gray-300 mt-4 text-lg">Loading Simulation...</p>
+</div>
       </div>
 
       {/* Skip button */}
