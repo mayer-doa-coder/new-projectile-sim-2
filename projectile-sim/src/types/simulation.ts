@@ -39,6 +39,7 @@ export interface CanvasProps {
   simulation: SimulationState;
   params: SimulationParams;
   isDayTheme: boolean;
+  updateParams?: (params: Partial<SimulationParams>) => void;
 }
 
 export interface ControlPanelProps {

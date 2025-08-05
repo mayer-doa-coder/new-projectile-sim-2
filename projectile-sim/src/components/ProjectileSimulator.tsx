@@ -82,6 +82,7 @@ export default function ProjectileSimulator() {
                     simulation={simulation}
                     params={params}
                     isDayTheme={isDayTheme}
+                    updateParams={updateParams}
                   />
                 </div>
               </div>

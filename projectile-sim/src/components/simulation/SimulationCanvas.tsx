@@ -1,10 +1,13 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useState } from 'react';
 import { CanvasProps } from '../../types/simulation';
 
 const GROUND_HEIGHT = 100;
 
-export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps) {
+export function SimulationCanvas({ simulation, params, isDayTheme, updateParams }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   // Calculate cannon base height based on cannon height parameter
   const CANNON_BASE_HEIGHT = Math.max(20, params.cannonHeight * 40); // Scale cannon height for visual representation
@@ -19,6 +22,86 @@ export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps
       y: params.canvasHeight - GROUND_HEIGHT - y * scale
     };
   }, [scale, params.canvasHeight]);
+
+
+
+  // Check if mouse is over cannon area
+  const isMouseOverCannon = useCallback((mouseX: number, mouseY: number) => {
+    const cannonX = 100;
+    const cannonY = params.canvasHeight - GROUND_HEIGHT - CANNON_BASE_HEIGHT + 10;
+    const distance = Math.sqrt((mouseX - cannonX) ** 2 + (mouseY - cannonY) ** 2);
+    return distance < 60; // 60px radius around cannon
+  }, [params.canvasHeight, CANNON_BASE_HEIGHT]);
+
+  // Handle mouse move for angle control and height dragging
+  const handleMouseMove = useCallback((event: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    const mouseX = (event.clientX - rect.left) * scaleX;
+    const mouseY = (event.clientY - rect.top) * scaleY;
+    
+    setMousePos({ x: mouseX, y: mouseY });
+
+    if (isDragging) {
+      // Handle height dragging
+      const cannonBaseY = params.canvasHeight - GROUND_HEIGHT;
+      const newHeight = Math.max(0.1, Math.min(10, (cannonBaseY - mouseY) / 40));
+      if (updateParams) {
+        updateParams({ cannonHeight: parseFloat(newHeight.toFixed(2)) });
+      }
+    } else if (isMouseOverCannon(mouseX, mouseY)) {
+      // Handle angle hovering
+      const cannonX = 100;
+      const cannonY = params.canvasHeight - GROUND_HEIGHT - CANNON_BASE_HEIGHT + 10;
+      
+      const deltaX = mouseX - cannonX;
+      const deltaY = cannonY - mouseY;
+      let angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+      
+      // Constrain angle between 0 and 90 degrees
+      angle = Math.max(0, Math.min(90, angle));
+      
+      if (updateParams) {
+        updateParams({ angle: parseFloat(angle.toFixed(1)) });
+      }
+      setIsHovering(true);
+    } else {
+      setIsHovering(false);
+    }
+  }, [isDragging, isMouseOverCannon, params.canvasHeight, CANNON_BASE_HEIGHT, updateParams]);
+
+  // Handle mouse down for starting drag
+  const handleMouseDown = useCallback((event: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    const mouseX = (event.clientX - rect.left) * scaleX;
+    const mouseY = (event.clientY - rect.top) * scaleY;
+
+    if (isMouseOverCannon(mouseX, mouseY)) {
+      setIsDragging(true);
+    }
+  }, [isMouseOverCannon]);
+
+  // Handle mouse up for ending drag
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  // Handle mouse leave
+  const handleMouseLeave = useCallback(() => {
+    setIsDragging(false);
+    setIsHovering(false);
+  }, []);
 
   // Draw the simulation
   const draw = useCallback(() => {
@@ -99,20 +182,28 @@ export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps
     ctx.closePath();
     ctx.fill();
 
-    // Draw cannon platform
-    ctx.fillStyle = '#8b5a2b';
+    // Draw cannon platform with interaction highlight
+    if (isHovering || isDragging) {
+      ctx.fillStyle = isDragging ? '#a16207' : '#92400e';
+    } else {
+      ctx.fillStyle = '#8b5a2b';
+    }
     ctx.fillRect(80, params.canvasHeight - GROUND_HEIGHT - CANNON_BASE_HEIGHT, 40, CANNON_BASE_HEIGHT);
 
     // Calculate cannon position based on height
     const cannonY = params.canvasHeight - GROUND_HEIGHT - CANNON_BASE_HEIGHT + 10;
     
-    // Draw cannon
+    // Draw cannon with interaction highlight
     ctx.save();
     ctx.translate(100, cannonY);
     ctx.rotate(-params.angle * Math.PI / 180);
     
-    // Cannon barrel
-    ctx.fillStyle = '#4a5568';
+    // Cannon barrel with interaction highlight
+    if (isHovering || isDragging) {
+      ctx.fillStyle = isDragging ? '#2563eb' : '#3b82f6';
+    } else {
+      ctx.fillStyle = '#4a5568';
+    }
     ctx.fillRect(0, -6, 50, 12);
     
     // Cannon wheel
@@ -132,6 +223,48 @@ export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps
       const angle = (i * Math.PI) / 4;
       ctx.lineTo(90 + Math.cos(angle) * 12, wheelY + Math.sin(angle) * 12);
       ctx.stroke();
+    }
+
+    // Draw interaction indicators
+    if (isHovering || isDragging) {
+      // Draw angle indicator line
+      ctx.strokeStyle = 'rgba(59, 130, 246, 0.8)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      ctx.moveTo(100, cannonY);
+      ctx.lineTo(mousePos.x, mousePos.y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw angle arc
+      ctx.strokeStyle = 'rgba(59, 130, 246, 0.6)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(100, cannonY, 30, 0, -params.angle * Math.PI / 180, true);
+      ctx.stroke();
+
+      // Draw angle text
+      ctx.fillStyle = 'rgba(59, 130, 246, 0.9)';
+      ctx.font = '12px Arial';
+      ctx.fillText(`${params.angle.toFixed(1)}°`, 110, cannonY - 35);
+
+      // Draw height indicator
+      if (isDragging) {
+        ctx.strokeStyle = 'rgba(161, 98, 7, 0.8)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(60, params.canvasHeight - GROUND_HEIGHT);
+        ctx.lineTo(60, params.canvasHeight - GROUND_HEIGHT - CANNON_BASE_HEIGHT);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Draw height text
+        ctx.fillStyle = 'rgba(161, 98, 7, 0.9)';
+        ctx.font = '12px Arial';
+        ctx.fillText(`${params.cannonHeight.toFixed(1)}m`, 15, cannonY);
+      }
     }
 
     // Draw trajectory
@@ -230,7 +363,7 @@ export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps
     ctx.arc(targetX, targetY, 3, 0, Math.PI * 2);
     ctx.fill();
 
-  }, [simulation, params, isDayTheme, physicsToCanvas, CANNON_BASE_HEIGHT]);
+  }, [simulation, params, isDayTheme, physicsToCanvas, CANNON_BASE_HEIGHT, isDragging, isHovering, mousePos]);
 
   // Effect for drawing
   useEffect(() => {
@@ -247,8 +380,13 @@ export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps
         style={{
           maxWidth: '100%',
           height: 'auto',
-          aspectRatio: `${params.canvasWidth} / ${params.canvasHeight}`
+          aspectRatio: `${params.canvasWidth} / ${params.canvasHeight}`,
+          cursor: isDragging ? 'grabbing' : (isHovering ? 'grab' : 'default')
         }}
+        onMouseMove={handleMouseMove}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
       />
       
       {/* Canvas size indicator */}
@@ -257,6 +395,42 @@ export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps
       }`}>
         {params.canvasWidth} × {params.canvasHeight}
       </div>
+
+      {/* Interactive controls instruction */}
+      <div className={`absolute bottom-2 left-2 px-3 py-2 rounded-lg text-xs ${
+        isDayTheme ? 'bg-white/90 text-gray-800 shadow-md' : 'bg-gray-800/90 text-white shadow-lg'
+      }`}>
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-blue-500">🖱️</span>
+          <span className="font-semibold">Interactive Cannon Controls:</span>
+        </div>
+        <div className="text-xs opacity-80">
+          • Hover over cannon to adjust angle
+        </div>
+        <div className="text-xs opacity-80">
+          • Click & drag cannon to change height
+        </div>
+      </div>
+
+      {/* Current interaction feedback */}
+      {(isHovering || isDragging) && (
+        <div className={`absolute top-2 left-2 px-3 py-2 rounded-lg text-sm font-medium ${
+          isDayTheme ? 'bg-blue-50 text-blue-800 border border-blue-200' : 'bg-blue-900/80 text-blue-100 border border-blue-700'
+        }`}>
+          {isDragging && (
+            <div className="flex items-center gap-2">
+              <span className="text-amber-500">📏</span>
+              <span>Height: {params.cannonHeight.toFixed(1)}m</span>
+            </div>
+          )}
+          {isHovering && !isDragging && (
+            <div className="flex items-center gap-2">
+              <span className="text-blue-500">📐</span>
+              <span>Angle: {params.angle.toFixed(1)}°</span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
