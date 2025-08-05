@@ -8,12 +8,12 @@ interface CanvasSizeControlsProps {
 }
 
 const CANVAS_PRESETS = [
-  { name: 'Small', width: 600, height: 400, icon: '📱' },
-  { name: 'Medium', width: 800, height: 500, icon: '💻' },
-  { name: 'Large', width: 1000, height: 600, icon: '🖥️' },
-  { name: 'Wide', width: 1200, height: 500, icon: '📺' },
-  { name: 'Square', width: 600, height: 600, icon: '⬜' },
-  { name: 'Tall', width: 600, height: 800, icon: '📱' }
+  { name: 'Small', width: 600, height: 400, icon: '' },
+  { name: 'Medium', width: 800, height: 500, icon: '' },
+  { name: 'Large', width: 1000, height: 600, icon: '' },
+  { name: 'Wide', width: 1200, height: 500, icon: '' },
+  { name: 'Square', width: 600, height: 600, icon: '' },
+  { name: 'Tall', width: 600, height: 800, icon: '' }
 ];
 
 export function CanvasSizeControls({ params, updateParams, isDayTheme }: CanvasSizeControlsProps) {
@@ -120,9 +120,9 @@ export function CanvasSizeControls({ params, updateParams, isDayTheme }: CanvasS
               step={50}
               value={params.canvasWidth}
               onChange={(e) => handleCustomSize('width', Number(e.target.value))}
-              className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-blue-400 to-blue-600"
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-blue-400 to-blue-600 accent-blue-500"
             />
-            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <div className="flex justify-between text-xs text-green-500 dark:text-gray-400 mt-1">
               <span>400px</span>
               <span>1600px</span>
             </div>
@@ -178,7 +178,7 @@ export function CanvasSizeControls({ params, updateParams, isDayTheme }: CanvasS
                 : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
             }`}
           >
-            🔄 Rotate
+            Rotate
           </button>
           <button
             onClick={() => {
@@ -192,7 +192,7 @@ export function CanvasSizeControls({ params, updateParams, isDayTheme }: CanvasS
                 : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
             }`}
           >
-            📐 Fix Ratio
+              Fix Ratio
           </button>
         </div>
       </div>

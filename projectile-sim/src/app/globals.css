@@ -85,7 +85,7 @@ button:active:not(:disabled) {
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  background: transparent;
+  background: aliceblue;
   cursor: pointer;
 }
 
