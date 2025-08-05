@@ -196,6 +196,42 @@ input[type="range"]::-moz-range-track {
 }
 
 /* Reduced motion support */
+/* Intro Page Animations */
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2000ms;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4000ms;
+}
+
+/* Custom animation durations */
+.duration-2000 {
+  transition-duration: 2000ms;
+}
+
+/* Pulse with delays */
+@keyframes pulse-delayed {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.animate-pulse-delayed {
+  animation: pulse-delayed 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
