@@ -9,32 +9,44 @@ const PRESETS: Preset[] = [
   {
     name: "Cannon Ball",
     icon: "⚫",
-    params: { velocity: 45, angle: 45, mass: 50, airResistance: true },
-    description: "Heavy projectile with air resistance"
+    params: { velocity: 45, angle: 45, mass: 50, airResistance: true, cannonHeight: 2.0 },
+    description: "Heavy projectile with air resistance from elevated position"
   },
   {
     name: "Bullet",
     icon: "🔸",
-    params: { velocity: 85, angle: 25, mass: 5, airResistance: true },
-    description: "High-speed, lightweight projectile"
+    params: { velocity: 85, angle: 25, mass: 5, airResistance: true, cannonHeight: 1.2 },
+    description: "High-speed, lightweight projectile from shoulder height"
   },
   {
     name: "Basketball",
     icon: "🏀",
-    params: { velocity: 35, angle: 55, mass: 20, airResistance: true },
-    description: "Sports projectile with moderate air resistance"
+    params: { velocity: 35, angle: 55, mass: 20, airResistance: true, cannonHeight: 2.5 },
+    description: "Sports projectile with moderate air resistance from above head"
   },
   {
     name: "Feather",
     icon: "🪶",
-    params: { velocity: 25, angle: 40, mass: 1, airResistance: true },
-    description: "Very light object heavily affected by air"
+    params: { velocity: 25, angle: 40, mass: 1, airResistance: true, cannonHeight: 1.8 },
+    description: "Very light object heavily affected by air from human height"
   },
   {
     name: "Perfect Vacuum",
     icon: "✨",
-    params: { velocity: 45, angle: 45, mass: 25, airResistance: false },
-    description: "Ideal physics without air resistance"
+    params: { velocity: 45, angle: 45, mass: 25, airResistance: false, cannonHeight: 1.5 },
+    description: "Ideal physics without air resistance from standard height"
+  },
+  {
+    name: "Tower Shot",
+    icon: "🏰",
+    params: { velocity: 40, angle: 30, mass: 30, airResistance: true, cannonHeight: 8.0 },
+    description: "Projectile launched from a high tower or cliff"
+  },
+  {
+    name: "Ground Level",
+    icon: "🎯",
+    params: { velocity: 50, angle: 35, mass: 20, airResistance: true, cannonHeight: 0.5 },
+    description: "Low trajectory shot from near ground level"
   }
 ];
 
@@ -157,6 +169,19 @@ export function ControlPanel({
                 isDayTheme={isDayTheme}
                 onChange={(value) => updateParams({ gravity: value })}
                 description="Gravitational acceleration"
+              />
+
+              <ParameterSlider
+                label="Cannon Height"
+                value={params.cannonHeight}
+                min={0.5}
+                max={10}
+                step={0.1}
+                unit="m"
+                color="orange"
+                isDayTheme={isDayTheme}
+                onChange={(value) => updateParams({ cannonHeight: value })}
+                description="Height of the cannon above ground level"
               />
 
               {/* Air Resistance Toggle */}

@@ -15,7 +15,8 @@ const DEFAULT_PARAMS: SimulationParams = {
   airResistance: true,
   gravity: 9.81,
   canvasWidth: 800,
-  canvasHeight: 500
+  canvasHeight: 500,
+  cannonHeight: 1.5
 };
 
 export default function ProjectileSimulator() {

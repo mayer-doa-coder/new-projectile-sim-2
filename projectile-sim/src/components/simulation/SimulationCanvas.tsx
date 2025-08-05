@@ -2,10 +2,12 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { CanvasProps } from '../../types/simulation';
 
 const GROUND_HEIGHT = 100;
-const CANNON_BASE_HEIGHT = 60;
 
 export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Calculate cannon base height based on cannon height parameter
+  const CANNON_BASE_HEIGHT = Math.max(20, params.cannonHeight * 40); // Scale cannon height for visual representation
 
   // Calculate scale based on canvas dimensions
   const scale = Math.min(params.canvasWidth / 20, params.canvasHeight / 12.5);
@@ -101,9 +103,12 @@ export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps
     ctx.fillStyle = '#8b5a2b';
     ctx.fillRect(80, params.canvasHeight - GROUND_HEIGHT - CANNON_BASE_HEIGHT, 40, CANNON_BASE_HEIGHT);
 
+    // Calculate cannon position based on height
+    const cannonY = params.canvasHeight - GROUND_HEIGHT - CANNON_BASE_HEIGHT + 10;
+    
     // Draw cannon
     ctx.save();
-    ctx.translate(100, params.canvasHeight - GROUND_HEIGHT - CANNON_BASE_HEIGHT + 10);
+    ctx.translate(100, cannonY);
     ctx.rotate(-params.angle * Math.PI / 180);
     
     // Cannon barrel
@@ -113,8 +118,9 @@ export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps
     // Cannon wheel
     ctx.restore();
     ctx.fillStyle = '#2d3748';
+    const wheelY = cannonY + 25;
     ctx.beginPath();
-    ctx.arc(90, params.canvasHeight - GROUND_HEIGHT - 15, 15, 0, Math.PI * 2);
+    ctx.arc(90, wheelY, 15, 0, Math.PI * 2);
     ctx.fill();
     
     // Cannon wheel spokes
@@ -122,9 +128,9 @@ export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps
     ctx.lineWidth = 2;
     for (let i = 0; i < 8; i++) {
       ctx.beginPath();
-      ctx.moveTo(90, params.canvasHeight - GROUND_HEIGHT - 15);
+      ctx.moveTo(90, wheelY);
       const angle = (i * Math.PI) / 4;
-      ctx.lineTo(90 + Math.cos(angle) * 12, params.canvasHeight - GROUND_HEIGHT - 15 + Math.sin(angle) * 12);
+      ctx.lineTo(90 + Math.cos(angle) * 12, wheelY + Math.sin(angle) * 12);
       ctx.stroke();
     }
 
@@ -224,7 +230,7 @@ export function SimulationCanvas({ simulation, params, isDayTheme }: CanvasProps
     ctx.arc(targetX, targetY, 3, 0, Math.PI * 2);
     ctx.fill();
 
-  }, [simulation, params, isDayTheme, physicsToCanvas]);
+  }, [simulation, params, isDayTheme, physicsToCanvas, CANNON_BASE_HEIGHT]);
 
   // Effect for drawing
   useEffect(() => {

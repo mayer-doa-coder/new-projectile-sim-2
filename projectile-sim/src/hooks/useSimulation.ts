@@ -20,7 +20,7 @@ export function useSimulation(params: SimulationParams) {
 
   // Calculate projectile motion with or without air resistance
   const calculateTrajectory = useCallback((params: SimulationParams): ProjectileData[] => {
-    const { velocity, angle, mass, airResistance, gravity } = params;
+    const { velocity, angle, mass, airResistance, gravity, cannonHeight } = params;
     const angleRad = (angle * Math.PI) / 180;
     const vx0 = velocity * Math.cos(angleRad);
     const vy0 = velocity * Math.sin(angleRad);
@@ -29,7 +29,7 @@ export function useSimulation(params: SimulationParams) {
     const dt = 0.016; // 60fps
     let t = 0;
     let x = 0;
-    let y = 1.5; // Start from cannon height
+    let y = cannonHeight; // Start from configurable cannon height
     let vx = vx0;
     let vy = vy0;
 

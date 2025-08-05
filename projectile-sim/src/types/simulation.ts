@@ -25,6 +25,7 @@ export interface SimulationParams {
   gravity: number;
   canvasWidth: number;
   canvasHeight: number;
+  cannonHeight: number;
 }
 
 export interface Preset {
